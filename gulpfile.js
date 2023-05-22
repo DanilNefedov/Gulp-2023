@@ -23,13 +23,13 @@ const include = require('gulp-include');
 
 function buildStyles(){
     return src([//for another files form libraries or something else
-        'app/styles/**/*.scss',
+        'app/styles/main.scss',
         '!app/styles/**/*.min.scss'
-    ])
+    ])    
+    .pipe(delCommCss())
     .pipe(concat('style.min.css'))
     .pipe(autoPref({ overrideBrowserslist: ['last 10 version'] }))
     .pipe(scss({outputStyle: 'compressed'}))
-    .pipe(delCommCss())
     .pipe(dest('app/styles'))
     .pipe(browserSync.stream())
 }
@@ -49,7 +49,9 @@ function buildScripts(){
 
 function buildImages(){
     return src([
-        'app/img/**/*.*', '!app/img/**/*.svg'
+        'app/img/**/*.*', 
+        '!app/img/**/*.svg',
+        '!app/img/favicon/**/*.*'
     ])
     .pipe(newer('app/img-dist'))
     .pipe(avif({ quality: 60 }))
@@ -106,6 +108,12 @@ function pagesHTML(){
 }
 
 
+function favicton(){
+    return src('app/img/favicon/**/*.*')
+    .pipe(dest('app/img-dist/favicon'))
+}
+
+
 function watching(){
     // function browsync
     browserSync.init({
@@ -137,7 +145,8 @@ function build(){
         'app/fonts/**/*.*',
         'app/pages/**/*.html',
         '!app/pages/index.html',
-        'app/index.html'
+        'app/index.html',
+        'app/img/favicon/**/*.*'
     ], {base: 'app'})
     .pipe(dest('dist'))
 }
@@ -145,7 +154,7 @@ function build(){
 
 
 
-exports.default = parallel(buildStyles, buildScripts, buildImages, pagesHTML, watching);
+exports.default = parallel(buildStyles, buildScripts, buildImages, pagesHTML, favicton, watching);
 
 exports.build = series(cleanDist, build);
 exports.spriteSvg = spriteSvg
