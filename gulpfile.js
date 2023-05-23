@@ -49,8 +49,8 @@ function buildScripts(){
 
 function buildImages(){
     return src([
-        'app/img/**/*.*', 
         '!app/img/**/*.svg',
+        'app/img/**/*.*', 
         '!app/img/favicon/**/*.*'
     ])
     .pipe(newer('app/img-dist'))
@@ -72,7 +72,9 @@ function buildImages(){
 
 
 function spriteSvg(){
-    return src('app/img-dist/**/*.svg')
+    return src([ 
+        'app/img-dist/**/*.svg'
+    ])  
     .pipe(svg({
         mode:{
             stack:{
@@ -81,6 +83,7 @@ function spriteSvg(){
             }
         }
     }))
+    .pipe(dest('app/img-dist'))
     .pipe(dest('dist/img-dist'))
 }
 
@@ -109,8 +112,8 @@ function pagesHTML(){
 
 
 function favicton(){
-    return src('app/img/favicon/**/*.*')
-    .pipe(dest('app/img-dist/favicon'))
+    return src('app/favicon/**/*.*')
+    .pipe(dest('dist/favicon'))
 }
 
 
@@ -123,8 +126,9 @@ function watching(){
     })
     // function browsync
     watch(['app/styles/**/*.scss'], buildStyles)
-    watch(['app/scripts/**/*.js'], buildScripts)
+    watch(['app/scripts/**/*.js', '!app/scripts/**/main.min.js'], buildScripts)
     watch(['app/img'], buildImages)
+    watch(['app/favicon'], favicton)
     watch(['app/components/**/*.html', 'app/pages/**/*.html'], pagesHTML)
     watch(['app/**/*.html']).on('change', browserSync.reload)
 }
@@ -142,11 +146,12 @@ function build(){
         'app/scripts/main.min.js',
         'app/img-dist/**/*.*',
         '!app/img-dist/**/*.svg',
+        'app/img-dist/**/sprite.svg',
         'app/fonts/**/*.*',
         'app/pages/**/*.html',
         '!app/pages/index.html',
         'app/index.html',
-        'app/img/favicon/**/*.*'
+        'app/favicon/**/*.*'
     ], {base: 'app'})
     .pipe(dest('dist'))
 }

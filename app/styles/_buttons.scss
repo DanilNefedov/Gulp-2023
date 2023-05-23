@@ -1,0 +1,10 @@
+.button{
+    padding: 20px 40px;
+    background-color: $second-bg;
+    margin: 100px auto;
+    transition: .3s;
+
+    &:hover{
+        background-color: bisque;
+    }
+}

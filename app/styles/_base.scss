@@ -34,6 +34,9 @@ body {
     height: 100%;
     width: 100%;
     font-style: normal;
+    background-color: $main-bg;
+    color:$maim-text;
+    // @include main-font($font, $size, $color, $weight)
 }
 
 input,
@@ -83,4 +86,10 @@ h6 {
 
 .wrapper {
     overflow: hidden;
+}
+
+
+.container{
+    max-width: 100%;
+    margin: 0 auto;
 }
