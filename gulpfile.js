@@ -20,15 +20,16 @@ const include = require('gulp-include');
 
 
 
-
 function buildStyles(){
     return src([//for another files form libraries or something else
         'app/styles/main.scss',
-        '!app/styles/**/*.min.scss'
+        'node_modules/swiper/swiper.scss'
+        // '!app/styles/**/*.min.css',
     ])    
-    .pipe(delCommCss())
-    .pipe(concat('style.min.css'))
+    .pipe(scss.sync().on('error', scss.logError)) 
+    .pipe(delCommCss())   
     .pipe(autoPref({ overrideBrowserslist: ['last 10 version'] }))
+    .pipe(concat('style.min.css'))
     .pipe(scss({outputStyle: 'compressed'}))
     .pipe(dest('app/styles'))
     .pipe(browserSync.stream())
@@ -37,8 +38,10 @@ function buildStyles(){
 
 function buildScripts(){
     return src([//for another files form libraries or something else
+        'node_modules/swiper/swiper-bundle.min.js',
+        'node_modules/imask/dist/imask.js',
         'app/scripts/**/*.js',
-        '!app/scripts/**/*.min.js'
+        '!app/scripts/**/*.min.js',
     ])
     .pipe(concat('main.min.js'))
     .pipe(uglify())
@@ -164,6 +167,7 @@ exports.default = parallel(buildStyles, buildScripts, buildImages, pagesHTML, fa
 exports.build = series(cleanDist, build);
 exports.spriteSvg = spriteSvg
 exports.buildFonts = buildFonts
+exports.buildScripts = buildScripts
 
 //first - gulp | w8
 //second - gulp build  | w8

@@ -21,6 +21,7 @@
         top:0px;
         background-color: $second-bg;
         flex-direction: column;
+        z-index: 20;
         
     }
     
@@ -97,7 +98,7 @@
     display: none;
     padding: 13px 10px;
     position: relative;
-    z-index: 2;
+    z-index: 22;
    
 
     span{

@@ -1,0 +1,24 @@
+.footer-container{
+    display: flex;
+    padding: 10px;
+    justify-content: space-between;
+
+    a{
+        color: $main-text;
+        margin: 5px 0;
+        display: inline-block;
+    }
+
+
+    @media screen and (max-width: 560px) {
+        display: block;
+
+        .info-company, .company, .support, .contact-us{
+            margin: 20px 0;
+        }
+    }
+}
+
+.info-company{
+    max-width: 200px;
+}
